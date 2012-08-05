@@ -98,13 +98,9 @@ mkdir -p "$SBT_USER_HOME/.sbt/plugins" && curl --silent --max-time 10 --location
 # repack cache
 mkdir -p $CACHE_DIR
 
+# removing SNAPSHOT.jar files to ensure we use latest
 for DIR in $CACHED_DIRS ; do
-  find $DIR -iname \*SNAPSHOT.jar -exec echo {} \;
-  rm -rf $CACHE_DIR/$DIR
-  mkdir -p $CACHE_DIR/$DIR
-  cp -r $DIR/.  $CACHE_DIR/$DIR
-echo "-----> Dropping ivy cache from the slug: $DIR" 
-rm -rf $SBT_USER_HOME/.ivy2 
+  find $DIR -iname \*SNAPSHOT.jar -exec echo "deleting" {} \; -exec rm {} \;
 done
 
 # build app
